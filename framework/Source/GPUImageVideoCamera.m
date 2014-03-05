@@ -220,6 +220,10 @@ NSString *const kGPUImageYUVVideoRangeConversionForLAFragmentShaderString = SHAD
 	
     [_captureSession beginConfiguration];
     
+    // Set the capture session preset
+	_captureSessionPreset = sessionPreset;
+    [_captureSession setSessionPreset:_captureSessionPreset];
+    
 	// Add the video input	
 	NSError *error = nil;
 	videoInput = [[AVCaptureDeviceInput alloc] initWithDevice:_inputCamera error:&error];
@@ -269,9 +273,6 @@ NSString *const kGPUImageYUVVideoRangeConversionForLAFragmentShaderString = SHAD
 		NSLog(@"Couldn't add video output");
         return nil;
 	}
-    
-	_captureSessionPreset = sessionPreset;
-    [_captureSession setSessionPreset:_captureSessionPreset];
 
 // This will let you get 60 FPS video from the 720p preset on an iPhone 4S, but only that device and that preset
 //    AVCaptureConnection *conn = [videoOutput connectionWithMediaType:AVMediaTypeVideo];
