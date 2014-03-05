@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'GPUImage-Goonbee'
-  s.version  = '1.0.3'
+  s.version  = '1.0.4'
   s.license  = 'BSD'
   s.platform = :ios, '5.0'
   s.summary  = 'Fork of Brad Larson\'s GPUImage'
