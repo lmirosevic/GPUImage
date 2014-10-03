@@ -7,10 +7,12 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/lmirosevic/GPUImage'
   s.author   = { 'Luka Mirosevic' => 'luka@goonbee.com' }
   s.source   = { :git => 'https://github.com/lmirosevic/GPUImage.git', :tag => s.version.to_s }
-  s.source_files = 'framework/Source/**/*.{h,m}'
-  s.osx.exclude_files = 'framework/Source/iOS/**/*.{h,m}'
-  s.ios.exclude_files = 'framework/Source/Mac/**/*.{h,m}'
-  s.frameworks   = 'OpenGLES', 'CoreVideo', 'CoreMedia', 'QuartzCore', 'AVFoundation'
 
+  s.source_files = 'framework/Source/**/*.{h,m}'
+  s.resources = 'framework/Resources/*.png'
   s.requires_arc = true
+  s.xcconfig = { 'CLANG_MODULES_AUTOLINK' => 'YES' }
+
+  s.exclude_files = 'framework/Source/Mac/**/*.{h,m}'
+  s.frameworks   = ['OpenGLES', 'CoreMedia', 'QuartzCore', 'AVFoundation']
 end
