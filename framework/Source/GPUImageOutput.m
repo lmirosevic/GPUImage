@@ -21,14 +21,14 @@ void runSynchronouslyOnVideoProcessingQueue(void (^block)(void))
 #if !OS_OBJECT_USE_OBJC
     if (dispatch_get_current_queue() == videoProcessingQueue)
 #else
-        if (dispatch_get_specific([GPUImageContext contextKey]))
+	if (dispatch_get_specific([GPUImageContext contextKey]))
 #endif
-        {
-            block();
-        }else
-        {
-            dispatch_sync(videoProcessingQueue, block);
-        }
+	{
+		block();
+	}else
+	{
+		dispatch_sync(videoProcessingQueue, block);
+	}
 }
 
 void runAsynchronouslyOnVideoProcessingQueue(void (^block)(void))
@@ -38,14 +38,14 @@ void runAsynchronouslyOnVideoProcessingQueue(void (^block)(void))
 #if !OS_OBJECT_USE_OBJC
     if (dispatch_get_current_queue() == videoProcessingQueue)
 #else
-        if (dispatch_get_specific([GPUImageContext contextKey]))
+    if (dispatch_get_specific([GPUImageContext contextKey]))
 #endif
-        {
-            block();
-        }else
-        {
-            dispatch_async(videoProcessingQueue, block);
-        }
+	{
+		block();
+	}else
+	{
+		dispatch_async(videoProcessingQueue, block);
+	}
 }
 
 void runSynchronouslyOnContextQueue(GPUImageContext *context, void (^block)(void))
@@ -81,8 +81,8 @@ void runAsynchronouslyOnContextQueue(GPUImageContext *context, void (^block)(voi
         }
 }
 
-void reportAvailableMemoryForGPUImage(NSString *tag)
-{
+void reportAvailableMemoryForGPUImage(NSString *tag) 
+{    
     if (!tag)
         tag = @"Default";
     
@@ -96,12 +96,12 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
                                    
                                    (task_info_t)&info,
                                    
-                                   &size);
-    if( kerr == KERN_SUCCESS ) {
+                                   &size);    
+    if( kerr == KERN_SUCCESS ) {        
         NSLog(@"%@ - Memory used: %u", tag, (unsigned int)info.resident_size); //in bytes
-    } else {
-        NSLog(@"%@ - Error: %s", tag, mach_error_string(kerr));
-    }
+    } else {        
+        NSLog(@"%@ - Error: %s", tag, mach_error_string(kerr));        
+    }    
 }
 
 @implementation GPUImageOutput
@@ -117,13 +117,13 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
 #pragma mark -
 #pragma mark Initialization and teardown
 
-- (id)init;
+- (id)init; 
 {
 	if (!(self = [super init]))
     {
 		return nil;
     }
-    
+
     targets = [[NSMutableArray alloc] init];
     targetTextureIndices = [[NSMutableArray alloc] init];
     _enabled = YES;
@@ -138,11 +138,11 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
     _outputTextureOptions.internalFormat = GL_RGBA;
     _outputTextureOptions.format = GL_BGRA;
     _outputTextureOptions.type = GL_UNSIGNED_BYTE;
-    
+
     return self;
 }
 
-- (void)dealloc
+- (void)dealloc 
 {
     [self removeAllTargets];
 }
@@ -225,11 +225,11 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
     
     NSInteger indexOfObject = [targets indexOfObject:targetToRemove];
     NSInteger textureIndexOfTarget = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
-    
+
     runSynchronouslyOnVideoProcessingQueue(^{
         [targetToRemove setInputSize:CGSizeZero atIndex:textureIndexOfTarget];
 		[targetToRemove setInputRotation:kGPUImageNoRotation atIndex:textureIndexOfTarget];
-        
+
         [targetTextureIndices removeObjectAtIndex:indexOfObject];
         [targets removeObject:targetToRemove];
         [targetToRemove endProcessing];
@@ -272,7 +272,7 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
 
 - (void)useNextFrameForImageCapture;
 {
-    
+
 }
 
 - (CGImageRef)newCGImageFromCurrentlyProcessedOutput;
@@ -306,7 +306,7 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
 
 - (UIImage *)imageFromCurrentFramebuffer;
 {
-	UIDeviceOrientation deviceOrientation = UIDeviceOrientationUnknown;
+    UIDeviceOrientation deviceOrientation = UIDeviceOrientationUnknown;
     UIImageOrientation imageOrientation = UIImageOrientationLeft;
 	switch (deviceOrientation)
     {
@@ -387,7 +387,7 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
 #pragma mark Accessors
 
 - (void)setAudioEncodingTarget:(GPUImageMovieWriter *)newValue;
-{
+{    
     _audioEncodingTarget = newValue;
     if( ! _audioEncodingTarget.hasAudioTrack )
     {
